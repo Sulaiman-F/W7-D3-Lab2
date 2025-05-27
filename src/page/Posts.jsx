@@ -7,11 +7,22 @@ function Posts() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState({});
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
       .then((response) => response.json())
-      .then((json) => setPost(json));
+      .then((json) => {
+        setPost(json);
+        setLoading(false);
+      });
   }, [id]);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-2xl font-semibold">Loading...</h1>
+      </div>
+    );
+  }
   return (
     <>
       <div

@@ -1,17 +1,27 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Alert } from "@mui/material";
 import { Link } from "react-router";
 function PostsContiner() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
-      .then((json) => setProducts(json));
+      .then((json) => {
+        setProducts(json);
+        setLoading(false);
+      });
 
     // return () => {};
   }, []);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <h1 className="text-2xl font-semibold">Loading...</h1>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center justify-center py-5 gap-5 bg-gray-100 px-5 md:px-10 lg:px-25">
       <h1 className="w-full text-2xl md:text-4xl border-b-2 border-neutral-300 py-5">
